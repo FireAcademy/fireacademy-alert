@@ -33,7 +33,7 @@ def saveDb():
 	while database_lock:
 		time.sleep(0.1)
 	database_lock = True
-	open("database.json", "w").write(json.dumps(database))
+	open("data.json", "w").write(json.dumps(database))
 	database_lock = False
 
 def getItem(key, default_val=[]):
