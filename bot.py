@@ -110,8 +110,8 @@ def startBot():
 	updater.start_polling()
 
 def main():
-	while True:
-		time.sleep(5)
+	time.sleep(10)
+	credits_loop()
 
 if __name__ == "__main__":
 	t = threading.Thread(target=startBot)
