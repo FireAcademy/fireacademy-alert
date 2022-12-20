@@ -25,7 +25,7 @@ register_pass = os.environ.get('REGISTER_PASSWORD')
 
 bot = TelegramBot(token=bot_token)
 
-def sendMessage(chat_id, msg):
+def sendMessage(msg, chat_id):
 	bot.sendMessage(chat_id=chat_id, text=msg)
 
 def saveDb():
@@ -37,8 +37,8 @@ def saveDb():
 	database_lock = False
 
 def getItem(key, default_val=[]):
-	item = database.get(key, -1)
-	if item == -1:
+	item = database.get(key, 0)
+	if item == 0:
 		item = default_val
 		database[key] = item
 		saveDb()
@@ -52,12 +52,10 @@ def get_credits():
 	conn.close()
 	return int(res[0])
 
-last_credits_notified = getItem("last_credits_notified", -1)
-
-def credits_check():
-	global last_credits_notified
+def credits_check(force=False):
+	last_credits_notified = getItem("last_credits_notified", 0)
 	credits_now = get_credits()
-	if credits_now != last_credits_notified:
+	if credits_now != last_credits_notified or force:
 		new_credits = 0
 		if credits_now < last_credits_notified:
 			new_credits = credits_now
@@ -78,7 +76,7 @@ def start_command(update: Update, context: CallbackContext) -> None:
 
 def now_command(update: Update, context: CallbackContext) -> None:
 	update.message.reply_text("Ok boss.")
-	credits_check()
+	credits_check(force=True)
 
 def register_command(update: Update, context: CallbackContext) -> None:
 	global database
