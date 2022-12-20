@@ -17,7 +17,7 @@ database = json.loads(f.read().strip())
 database_lock = False
 f.close()
 
-load_dotenv() 
+load_dotenv()
 
 db_conn_string = os.environ.get('DB_CONN_STRING')
 bot_token = os.environ.get('BOT_TOKEN')
@@ -64,7 +64,7 @@ def credits_check(force=False):
 		database["last_credits_notified"] = credits_now
 		saveDb()
 		for chat_id in getItem("chats_to_notify"):
-			sendMessage(f"Since last message, {new_credits} were used. Total this week: {credits_now}", chat_id)
+			sendMessage(f"Since last message, {new_credits} credits were used. Total this week: {credits_now}", chat_id)
 
 def credits_loop():
 	while True:
